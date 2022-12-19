@@ -1,0 +1,40 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.inputs:
+- type: filestream
+  id: my-RESTPP-filestream
+  paths:
+  - /home/tigergraph/tigergraph/log/restpp/INFO.*
+  tags:
+  - RESTPP
+  - m1
+  - RESTPP_1
+  enabled: true
+
+- type: filestream
+  paths:
+  - /home/tigergraph/tigergraph/log/gui/GUI#1.out
+  tags:
+  - GUI
+  - m1
+  - GUI_1
+  enabled: true
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+setup.kibana:
+  host: "kibana:5601"
+  username: "elastic"
+  password: ${FILEBEAT_SYSTEM_PASSWORD}
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+processors:
+- add_cloud_metadata: ~

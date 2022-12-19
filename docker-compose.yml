@@ -87,6 +87,21 @@ services:
       - elk
     depends_on:
       - elasticsearch
+  
+  filebeat:
+    user: root
+    build:
+      context: filebeat/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    command: --strict.perms=false -e
+    volumes:
+      - /home/tigergraph/tigergraph/log:/home/tigergraph/tigergraph/log
+      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro,Z
+    networks:
+      - elk
+    depends_on: 
+     - 'logstash'
 
 networks:
   elk:
