@@ -2,6 +2,7 @@
 - Used for bare metal installations of TigerGraph
 - Can be used with any 3.x version of TigerGraph
 - Code for selecting which logs are read can be found in `filebeat/config/filebeat.yml`
+    - This will need to be modified if the TigerGraph install is not using the default log location
 - Code for filtering logs can be found in `logstash/pipeline/logstash.conf`
 
 ***
@@ -24,8 +25,10 @@ $ sudo docker-compose up -d
 
 Stop Docker containers:
 ```console
-$ sudo docker-compose down -v
+$ sudo docker-compose down
 ```
+
+The first time the containers are launched, you will have to reset the Kibana password. This will only be needed to log into the UI.
 
 Reset Kibana password:
 ```console
@@ -39,8 +42,8 @@ Once the app is up and running, a sample dashboard can be used for viewing the l
 - Log in with credentials:
     - username: elastic
     - password: (password generated from command in previous section)
-- Go to "Saved Objects" page
-- Click "Import" and choose the file found in `kibanaDashboardSample` folder
+- Use the search bar at the top of the page to navigate to the "Saved Objects" page
+- Click "Import" and choose the file found in `kibanaDashboardSample` folder of this repository
 - Navigate to "Dashboard" page
 - Select"MyExampleDashboard" from list of options
 
